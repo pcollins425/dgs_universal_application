@@ -16,7 +16,7 @@ def get_data():
     try:
         # Get pagination parameters from the query string
         page = int(request.args.get('page', 1))  # Default to page 1
-        limit = int(request.args.get('limit', 50))  # Default to 50 rows per page
+        limit = int(request.args.get('limit', 100))  # Default to 50 rows per page
         offset = (page - 1) * limit
 
         # Query the database with LIMIT and OFFSET for pagination
