@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Arrow Head: Project Sheet</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/fonts.css">
+    <!-- Jspreadsheet and JSuites CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jspreadsheet-ce@5/dist/jspreadsheet.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsuites/dist/jsuites.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons" />
+    <style>
+        /* Toolbar fixed at the top */
+        #toolbar {
+            position: fixed; /* Fix the toolbar to the top of the viewport */
+            top: 0; /* Stick to the top of the viewport */
+            left: 0; /* Align to the left edge */
+            width: 100%; /* Make the toolbar span the full width */
+            z-index: 1000; /* Ensure the toolbar stays above other elements */
+            background-color: #f9f9f9; /* Optional: Add a background color */
+            border-bottom: 1px solid #ccc; /* Optional: Add a bottom border */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+        }
+
+        /* Center the spreadsheet container */
+        #spreadsheet-container {
+            margin: auto; /* Add top margin to prevent overlap with the toolbar */
+            width: 95%; /* Set the width of the spreadsheet container */
+            height: 95%; /* Set the height of the spreadsheet container */
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: auto; /* Enable scrollbars for overflow content */
+        }
+
+        #spreadsheet {
+            width: 100%; /* Ensure the spreadsheet fills the container */
+            height: 100%; /* Ensure the spreadsheet fills the container */
+        }
+
+        /* Ensure the toolbar is styled properly */
+        .jexcel_toolbar {
+            position: absolute;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px; /* Add spacing between tools */
+            padding: 10px;
+            justify-content: flex-start;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Toolbar Container -->
+    <div id="toolbar"></div>
+
+    <!-- Spreadsheet Container -->
+    <div id="spreadsheet-container">
+        <div id="spreadsheet"></div>
+    </div>
+
+    <!-- Jspreadsheet and JSuites JS -->
+    <script src="https://cdn.jsdelivr.net/npm/jspreadsheet-ce@5/dist/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsuites/dist/jsuites.min.js"></script>
+    <script>
+        // Initialize Jspreadsheet
+        const spreadsheet = jspreadsheet(document.getElementById('spreadsheet'), {
+            toolbar: true, // Enable the toolbar
+            worksheets: [
+                {
+                    data: [
+                        ['Machine 1', 'Casino A', 'Active', 100],
+                        ['Machine 2', 'Casino B', 'Inactive', 200],
+                        ['Machine 3', 'Casino C', 'Active', 300]
+                    ],
+                    columns: [
+                        { title: 'Machine Name', width: 150 },
+                        { title: 'Casino', width: 150 },
+                        { title: 'Status', width: 100 },
+                        { title: 'Revenue', width: 100 }
+                    ],
+                    minDimensions: [100, 100] // Minimum 20 columns and 20 rows
+                }
+            ]
+        });
+
+        // Move the toolbar to the #toolbar div
+        const toolbarElement = document.querySelector('.jexcel_toolbar');
+        if (toolbarElement) {
+            document.getElementById('toolbar').appendChild(toolbarElement);
+        }
+    </script>
+</body>
+</html>
