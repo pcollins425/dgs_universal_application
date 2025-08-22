@@ -1,5 +1,17 @@
 # Developer Logs
 
+### Main commandline references
+
+#### Check open ports
+```ps1
+netstat -ano
+```
+
+#### Check specific port
+```ps1
+netstat -ano | findstr ":{port_number}"
+```
+
 ### Git References
 
 #### Clone
