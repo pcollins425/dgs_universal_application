@@ -16,7 +16,27 @@ def get_data():
     try:
         # Query the database
         with engine.connect() as connection:
-            result = connection.execute(text("SELECT * FROM slot_master_active"))
+            result = connection.execute(text("""
+                                                SELECT
+                                                    cl.casino_name,
+                                                    sm.serial_no,
+                                                    v.vendor_name,
+                                                    cab.cabinet_name,
+                                                    th.theme_name
+                                                FROM slot_master_active sm
+                                                
+                                                JOIN clients.dbo.casinos cl
+                                                ON sm.casino_id = cl.reference_key
+                                                
+                                                JOIN vendors.dbo.vendors v
+                                                ON sm.vendor_id = v.reference_key
+                                                
+                                                JOIN vendors.dbo.cabinets cab
+                                                ON sm.cabinet_id = cab.reference_key
+                                                
+                                                JOIN vendors.dbo.themes th
+                                                ON sm.theme_id = th.reference_key
+                                            """))
             # Convert rows to dictionaries explicitly
             data = [dict(row._mapping) for row in result]  # Use _mapping for SQLAlchemy Row objects
         return jsonify(data)

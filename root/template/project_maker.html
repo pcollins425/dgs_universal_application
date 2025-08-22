@@ -45,10 +45,11 @@
     
                 // Transform data into the format required by Jspreadsheet
                 const spreadsheetData = data.map(row => [
-                    row.MachineName, // Adjust column names to match your database
-                    row.Casino,
-                    row.Status,
-                    row.Revenue
+                    row.casino_name, // Adjust column names to match your database
+                    row.serial_no,
+                    row.vendor_name,
+                    row.cabinet_name,
+                    row.theme_name
                 ]);
     
                 // Initialize Jspreadsheet with fetched data
@@ -58,10 +59,11 @@
                         {
                             data: spreadsheetData,
                             columns: [
-                                { title: 'Machine Name', width: 150 },
-                                { title: 'Casino', width: 150 },
-                                { title: 'Status', width: 100 },
-                                { title: 'Revenue', width: 100 }
+                                { title: 'Casino ID', width: 150 },
+                                { title: 'Serial Number', width: 150 },
+                                { title: 'Vendor', width: 100 },
+                                { title: 'Cabinet', width: 100 },
+                                { title: 'theme', width: 100 }
                             ],
                             minDimensions: [100, 100]
                         }
