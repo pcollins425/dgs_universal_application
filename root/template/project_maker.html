@@ -26,8 +26,11 @@
 </head>
 
 <body>
-    <!-- Toolbar Container -->
-    <div id="toolbar"></div>
+    <!-- Pagination Controls -->
+    <div id="pagination-controls" style="text-align: center; margin: 10px 0;">
+        <button id="prev-button" onclick="fetchData(currentPage - 1)" disabled>Previous</button>
+        <button id="next-button" onclick="fetchData(currentPage + 1)">Next</button>
+    </div>
 
     <!-- Spreadsheet Container -->
     <div id="spreadsheet-container">
@@ -38,11 +41,15 @@
     <script src="https://cdn.jsdelivr.net/npm/jspreadsheet-ce@5/dist/index.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jsuites/dist/jsuites.min.js"></script>
     <script>
-        let currentPage = 1;
+        let currentPage = 1; // Global variable to track the current page
         const rowsPerPage = 50;
+        let spreadsheetInstance = null; // Store the Jspreadsheet instance globally
 
         async function fetchData(page = 1) {
             try {
+                // Prevent invalid page numbers
+                if (page < 1) return;
+
                 const response = await fetch(`http://localhost:5001/data?page=${page}&limit=${rowsPerPage}`);
                 const result = await response.json();
 
@@ -55,8 +62,13 @@
                     row.theme_name
                 ]);
 
-                // Initialize or update Jspreadsheet with fetched data
-                jspreadsheet(document.getElementById('spreadsheet'), {
+                // Destroy the existing Jspreadsheet instance if it exists
+                if (spreadsheetInstance) {
+                    spreadsheetInstance.destroy();
+                }
+
+                // Initialize Jspreadsheet with fetched data
+                spreadsheetInstance = jspreadsheet(document.getElementById('spreadsheet'), {
                     toolbar: true,
                     worksheets: [
                         {
@@ -68,13 +80,16 @@
                                 { title: 'Cabinet', width: 100 },
                                 { title: 'Theme', width: 100 }
                             ],
-                            minDimensions: [100, 50] //Column X Row
+                            minDimensions: [100, 50] // Column X Row
                         }
                     ]
                 });
 
-                // Update current page
+                // Update the global currentPage variable
                 currentPage = page;
+
+                // Enable/disable pagination buttons
+                document.getElementById('prev-button').disabled = currentPage === 1;
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -83,11 +98,14 @@
         // Fetch data for the first page on page load
         fetchData();
 
-        // Example: Add buttons for pagination
-        document.getElementById('toolbar').innerHTML = `
-            <button onclick="fetchData(currentPage - 1)">Previous</button>
-            <button onclick="fetchData(currentPage + 1)">Next</button>
-        `;
+        // Add event listeners for pagination buttons
+        document.getElementById('prev-button').addEventListener('click', () => {
+            fetchData(currentPage - 1);
+        });
+
+        document.getElementById('next-button').addEventListener('click', () => {
+            fetchData(currentPage + 1);
+        });
     </script>
 </body>
 </html>
