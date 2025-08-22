@@ -38,21 +38,24 @@
     <script src="https://cdn.jsdelivr.net/npm/jspreadsheet-ce@5/dist/index.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jsuites/dist/jsuites.min.js"></script>
     <script>
-        async function fetchData() {
+        let currentPage = 1;
+        const rowsPerPage = 50;
+
+        async function fetchData(page = 1) {
             try {
-                const response = await fetch('http://localhost:5001/data');
-                const data = await response.json();
-    
+                const response = await fetch(`http://localhost:5001/data?page=${page}&limit=${rowsPerPage}`);
+                const result = await response.json();
+
                 // Transform data into the format required by Jspreadsheet
-                const spreadsheetData = data.map(row => [
-                    row.casino_name, // Adjust column names to match your database
+                const spreadsheetData = result.data.map(row => [
+                    row.casino_name,
                     row.serial_no,
                     row.vendor_name,
                     row.cabinet_name,
                     row.theme_name
                 ]);
-    
-                // Initialize Jspreadsheet with fetched data
+
+                // Initialize or update Jspreadsheet with fetched data
                 jspreadsheet(document.getElementById('spreadsheet'), {
                     toolbar: true,
                     worksheets: [
@@ -63,19 +66,28 @@
                                 { title: 'Serial Number', width: 150 },
                                 { title: 'Vendor', width: 100 },
                                 { title: 'Cabinet', width: 100 },
-                                { title: 'theme', width: 100 }
+                                { title: 'Theme', width: 100 }
                             ],
                             minDimensions: [100, 100]
                         }
                     ]
                 });
+
+                // Update current page
+                currentPage = page;
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         }
-    
-        // Fetch data on page load
+
+        // Fetch data for the first page on page load
         fetchData();
+
+        // Example: Add buttons for pagination
+        document.getElementById('toolbar').innerHTML = `
+            <button onclick="fetchData(currentPage - 1)">Previous</button>
+            <button onclick="fetchData(currentPage + 1)">Next</button>
+        `;
     </script>
 </body>
 </html>
