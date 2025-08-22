@@ -5,7 +5,7 @@
 
 /* Center the spreadsheet container */
 #spreadsheet-container {
-    margin: auto; /* Add top margin to prevent overlap with the toolbar */
+    margin: 50px; /* Add top margin to prevent overlap with the toolbar */
     width: 95%; /* Set the width of the spreadsheet container */
     height: 95%; /* Set the height of the spreadsheet container */
     border: 1px solid #ccc;
