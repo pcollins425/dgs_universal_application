@@ -11,27 +11,56 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsuites/dist/jsuites.min.css" type="text/css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons" />
     <style>
-        /* Toolbar fixed at the top */
+        /* Define a custom "fullscreen" container */
+        #custom-fullscreen-container {
+            position: relative; /* Relative positioning for internal layout */
+            width: 80%; /* Set the desired width of the container */
+            height: 70vh; /* Set the desired height (70% of the viewport height) */
+            margin: 5% auto; /* Center the container horizontally and add vertical spacing */
+            border: 1px solid #ccc; /* Optional: Add a border for visibility */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Optional: Add a shadow for emphasis */
+            background-color: #fff; /* Optional: Add a background color */
+            overflow: hidden; /* Prevent scrolling inside the container */
+        }
+
+        /* Toolbar fixed at the top of the custom container */
         #toolbar {
-            position: fixed; /* Fix the toolbar to the top of the viewport */
-            top: 0; /* Stick to the top of the viewport */
-            left: 0; /* Align to the left edge */
-            width: 100%; /* Make the toolbar span the full width */
-            z-index: 1000; /* Ensure the toolbar stays above other elements */
-            background-color: #f9f9f9; /* Optional: Add a background color */
-            border-bottom: 1px solid #ccc; /* Optional: Add a bottom border */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ccc;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Spreadsheet container fills the remaining space */
+        #spreadsheet-container {
+            position: absolute;
+            top: 50px; /* Below the toolbar */
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        #spreadsheet {
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
 
 <body>
-    <!-- Toolbar Container -->
-    <div id="toolbar"></div>
+    <!-- Custom Fullscreen Container -->
+    <div id="custom-fullscreen-container">
+        <!-- Toolbar Container -->
+        <div id="toolbar"></div>
 
-    <!-- Spreadsheet Container -->
-    <div id="spreadsheet-container">
-        <div id="spreadsheet"></div>
+        <!-- Spreadsheet Container -->
+        <div id="spreadsheet-container">
+            <div id="spreadsheet"></div>
+        </div>
     </div>
 
     <!-- Jspreadsheet and JSuites JS -->
