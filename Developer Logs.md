@@ -38,3 +38,8 @@ git push origin {branch}
 ```ps1
 git branch
 ```
+
+#### Remove Clone Repository
+```ps1
+rm -Recurse -Force dgs_universal_application
+```
