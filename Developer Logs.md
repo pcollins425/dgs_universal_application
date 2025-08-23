@@ -29,6 +29,8 @@ git add .
 git commit
 ```
 
+If commit opens in command line, type commit comments, followed by `esc` and `:wq`, then enter.
+
 #### Push
 ```ps1
 git push origin {branch}
